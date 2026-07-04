@@ -1,8 +1,11 @@
 
 import streamlit as st
 
-from util import TEST_DATA
+from util import TEST_DATA, TEST_TRANSACTIONS, MARKET_RECOMMENDATIONS
 
+
+# pending - chat
+# pending - accept listing
 
 def nav_bar():
     c1, c2, c3, c4, c5 = st.columns(5)
@@ -12,9 +15,9 @@ def nav_bar():
         go("post")
     if c3.button("Find a work", use_container_width=True):
         go("find")
-    if c5.button("View Transactions", use_container_width=True):
+    if c4.button("Transactions", use_container_width=True):
         go("transactions")
-    if c4.button("Logout", use_container_width=True):
+    if c5.button("Logout", use_container_width=True):
         go("welcome")
 
 
@@ -30,6 +33,7 @@ def register_screen():
         st.text_input("Last Name", placeholder="Bangit")
         st.text_input("Address", placeholder="Shibuya, Tokyo")
         st.text_input("Username", placeholder="jrbangit")
+        st.text_input("Bearable Markup Percentage in Open Market", placeholder="50%")
         st.text_input("Credit Card Number", placeholder="******1234")
         st.text_input("Credit Card Expiration", placeholder="07/27")
         st.text_input("Credit Card Security Code", placeholder="123")
@@ -87,11 +91,42 @@ def find_work_screen():
             c2.markdown("Pay : {}".format(listing["offered pay"]))
             c2.markdown("When: {}".format(listing["date and time"]))
             c2.markdown("Lister: {}".format(listing["poster"]))
-            st.sub
+            # st.sub
     # st.write("List a task you need done, or earn by doing tasks for others.")
 
 def view_transactions():
     nav_bar()
+    st.title("Transactions")
+    st.caption("View your Active and Historical Transactions")
+    for transactions in TEST_TRANSACTIONS:
+        with st.container(border=True):
+            st.subheader(transactions["title"])
+            # st.write(transactions["transacting with"])
+            c1, c2, c3, c4 = st.columns(4)
+            c1.markdown("Transacting with {}".format(transactions["transacting with"]))
+            c2.markdown("Pay {}".format(transactions["offered pay"]))
+            c3.markdown("Date: {}".format(transactions["date and time"]))
+            c4.markdown("Status: {}".format(transactions["status"]))
+            got_the_item = transactions["got the item"]
+            st.write("Able to get the item? : {}".format(got_the_item))
+            if got_the_item == "False":
+                st.button("See Recommendations for One Piece in Open Market".format(),
+                          use_container_width=True, key="recommendations", on_click=lambda: go("recommendations"))
+
+
+def recommendations():
+    nav_bar()
+    st.title("Market Recommendations within the set Bearable Markup")
+    for recommendation in MARKET_RECOMMENDATIONS:
+        with st.container(border=True):
+            st.subheader(recommendation["title"])
+            col1, col2, col3, col4 = st.columns(4)
+            col1.markdown("Origin: {}".format(recommendation["listed in"]))
+            col2.markdown("Price: {}".format(recommendation["listing price"]))
+            col3.markdown("Markup: {}".format(recommendation["markup"]))
+            col4.markdown("Lister: {}".format(recommendation["lister"]))
+
+
 
 def home_screen():
     nav_bar()
@@ -116,6 +151,7 @@ SCREENS = {
     "post": post_task_screen,
     "find": find_work_screen,
     "transactions": view_transactions,
+    "recommendations": recommendations
     # "logout": logout_screen
 }
 
