@@ -1,11 +1,11 @@
 
 import streamlit as st
 
-from util import TEST_DATA, TEST_TRANSACTIONS, MARKET_RECOMMENDATIONS
+from util import TEST_DATA, TEST_TRANSACTIONS, MARKET_RECOMMENDATIONS, TEST_CHAT_DATA
 
 
-# pending - chat
-# pending - accept listing
+# pending - accept listing -> both lister and accepter should both accept
+# pending - accept whether the job is done
 
 def nav_bar():
     c1, c2, c3, c4, c5 = st.columns(5)
@@ -91,8 +91,43 @@ def find_work_screen():
             c2.markdown("Pay : {}".format(listing["offered pay"]))
             c2.markdown("When: {}".format(listing["date and time"]))
             c2.markdown("Lister: {}".format(listing["poster"]))
+            if st.button("Accept and Discuss", key=listing["title"], use_container_width=True, type="primary"):
+                open_chat(listing)
             # st.sub
     # st.write("List a task you need done, or earn by doing tasks for others.")
+def open_chat(listing: dict):
+    st.session_state.active_listing = listing
+    st.session_state.messages = list[dict[str,str]](TEST_CHAT_DATA)
+    go("chat")
+
+def chat_screen():
+    nav_bar()
+    listing = st.session_state.get("active_listing")
+    if not listing:
+        st.info("No active conversation.")
+        st.button("Find work", on_click=lambda: go("find"))
+
+    st.title("Discussion")
+    st.caption("Task: {} - with {}".format(listing["title"], listing["poster"]))
+
+    with st.container(border=True):
+        col1, col2, col3 = st.columns(3)
+        col1.markdown("{}".format(listing["location"]))
+        col2.markdown("{}".format(listing["date and time"]))
+        col3.markdown("{}".format(listing["offered pay"]))
+
+    for msg in st.session_state.get("messages", []):
+
+        avatar = "POSTER :D" if msg["role"] == "poster" else "WORKER :D"
+        with st.chat_message(msg["role"]):
+            st.markdown("**{}** {}".format(msg["name"], msg["text"]))
+
+    prompt = st.chat_input("Type a message")
+    if prompt:
+        st.session_state.messages.append(
+            {"role": "worker", "name": "You", "text": prompt}
+        )
+        st.rerun()
 
 def view_transactions():
     nav_bar()
@@ -110,8 +145,9 @@ def view_transactions():
             got_the_item = transactions["got the item"]
             st.write("Able to get the item? : {}".format(got_the_item))
             if got_the_item == "False":
-                st.button("See Recommendations for One Piece in Open Market".format(),
-                          use_container_width=True, key="recommendations", on_click=lambda: go("recommendations"))
+                if st.button("See Recommendations for One Piece in Open Market".format(),
+                          use_container_width=True, key="recommendations"):
+                    go("recommendations")
 
 
 def recommendations():
@@ -151,7 +187,8 @@ SCREENS = {
     "post": post_task_screen,
     "find": find_work_screen,
     "transactions": view_transactions,
-    "recommendations": recommendations
+    "recommendations": recommendations,
+    "chat": chat_screen
     # "logout": logout_screen
 }
 

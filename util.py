@@ -69,3 +69,14 @@ MARKET_RECOMMENDATIONS = [
     "lister": "scalper_bois",
 }
 ]
+
+TEST_CHAT_DATA = [{
+    "role": "Poster",
+    "name": "You",
+    "text": "Hey, San ka na?"
+},{
+    "role": "Worker",
+    "name": "pila boy",
+    "text": "OTW, be there in 10 mins"
+}
+]

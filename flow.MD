@@ -1,18 +1,16 @@
 
-core functionalities and flow
-- user registration
-- login
-- posting of task/hiring
-- looking for task/finding work
-  - after transaction, if unable to buy TCG -> suggest secondary market listings (from FB marketplace, ebay) within price range
 
-main screen 
--> no account -> register (integration with fb/x ***pending) -> home
--> already have account -> login -> home
 
--> are you looking to hire? or are you looking for work?
--> if looking to hire, post_task_screen 
-   -> if accepted -> transaction screen + chat
--> if looking for work, find_work_screen 
-   -> if accepted -> transaction screen + chat
+# Flow
+- figma link (https://www.figma.com/board/niqFscm4NtcSxvVc5S9WBU/Untitled?node-id=0-1&t=IJx6MhIAzLn5SmoP-1)
+![App Screenshot](images/flow.png)
 
+# To Test 
+## (This assumes you have basic python installed and venv)
+- Note: install the required packages in your venv such as streamlit (e.g. pip install streamlit)
+- Note: use an IDE (pycharm) for better experience
+
+`streamlit run main.py`
+
+# Full Description, Features and Limitations
+- these information are submitted in a separate document
