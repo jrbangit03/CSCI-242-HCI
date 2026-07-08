@@ -91,8 +91,10 @@ def find_work_screen():
             c2.markdown("Pay : {}".format(listing["offered pay"]))
             c2.markdown("When: {}".format(listing["date and time"]))
             c2.markdown("Lister: {}".format(listing["poster"]))
-            if st.button("Accept and Discuss", key=listing["title"], use_container_width=True, type="primary"):
-                open_chat(listing)
+            lister = listing["poster"]
+            if lister != "jay-r bangit":
+                if st.button("Accept and Discuss", key=listing["title"], use_container_width=True, type="primary"):
+                    open_chat(listing)
             # st.sub
     # st.write("List a task you need done, or earn by doing tasks for others.")
 def open_chat(listing: dict):
@@ -118,7 +120,7 @@ def chat_screen():
 
     for msg in st.session_state.get("messages", []):
 
-        avatar = "POSTER :D" if msg["role"] == "poster" else "WORKER :D"
+        # avatar = "POSTER :D" if msg["role"] == "poster" else "WORKER :D"
         with st.chat_message(msg["role"]):
             st.markdown("**{}** {}".format(msg["name"], msg["text"]))
 
@@ -144,10 +146,18 @@ def view_transactions():
             c4.markdown("Status: {}".format(transactions["status"]))
             got_the_item = transactions["got the item"]
             st.write("Able to get the item? : {}".format(got_the_item))
-            if got_the_item == "False":
+
+            if st.button("Go to Chat", key=transactions["title"], use_container_width=True, type="primary"):
+                open_chat(transactions)
+
+            if got_the_item == "False" and transactions["status"] == "Completed":
                 if st.button("See Recommendations for One Piece in Open Market".format(),
                           use_container_width=True, key="recommendations"):
                     go("recommendations")
+            else:
+                st.button("Complete the Transaction and notify other party",
+                          key="complete_transaction", use_container_width=True)
+
 
 
 def recommendations():

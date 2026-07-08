@@ -3,7 +3,7 @@
 
 # Flow
 - figma link (https://www.figma.com/board/niqFscm4NtcSxvVc5S9WBU/Untitled?node-id=0-1&t=IJx6MhIAzLn5SmoP-1)
-![App Screenshot](images/flow.png)
+![App Screenshot](images/flow2.png)
 
 # To Test 
 ## (This assumes you have basic python installed and venv)

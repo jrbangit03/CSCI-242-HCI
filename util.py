@@ -26,6 +26,7 @@ TEST_DATA = [{
 TEST_TRANSACTIONS = [
 {
     "title": "listing-3 : nike release queue",
+    "poster": "jay-r bangit",
     "location": "tokyo, harajuku",
     "offered pay": "7,000 Ten",
     "date and time": "Oct 22, 2026, Friday, 3:00PM",
@@ -34,6 +35,7 @@ TEST_TRANSACTIONS = [
     "got the item": "n/a"
 },{
     "title": "listing-2 : one piece queue",
+    "poster": "jay-r bangit",
     "location": "tokyo, ueno",
     "offered pay": "5,000 Ten",
     "date and time": "Oct 22, 2026, Friday, 3:00PM",
